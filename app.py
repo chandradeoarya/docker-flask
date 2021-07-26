@@ -6,12 +6,12 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-  return 'Hello, Docker!'
+  return 'Hello, Docker compose!'
 
 @app.route('/widgets')
 def get_widgets() :
   mydb = mysql.connector.connect(
-    host="helloflasksqldb",
+    host="hello-flask_mysqldb_1",
     user="root",
     password="Helloflask@1",
     database="inventory"
@@ -35,7 +35,7 @@ def get_widgets() :
 @app.route('/initdb')
 def db_init():
   mydb = mysql.connector.connect(
-    host="helloflasksqldb",
+    host="hello-flask_mysqldb_1",
     user="root",
     password="Helloflask@1"
   )
@@ -46,7 +46,7 @@ def db_init():
   cursor.close()
 
   mydb = mysql.connector.connect(
-    host="helloflasksqldb",
+    host="hello-flask_mysqldb_1",
     user="root",
     password="Helloflask@1",
     database="inventory"
