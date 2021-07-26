@@ -3,7 +3,8 @@
 [![type](https://img.shields.io/badge/type-Docker-blue.svg)](https://hub.docker.com/r/devilbox/python-flask)
 [![License](https://img.shields.io/badge/license-MIT-%233DA639.svg)](https://opensource.org/licenses/MIT)
 
-This tutorial provides a steps for building and deploying Python Flask demo project
+This tutorial provides a steps for building and deploying Python Flask demo project.
+Code repository - [https://github.com/chandradeoarya/docker-flask](https://github.com/chandradeoarya/docker-flask)
 
 ## Docker image tags
 
@@ -60,6 +61,12 @@ After you've started the container with a `requirements.txt` in place, a new `ve
 For building the images you need to go inside your project directory `hello-flask/` :
 
 ```bash
+# Clone the repository if not done yet
+git clone https://github.com/chandradeoarya/docker-flask.git
+
+# Pull step-1 code
+git pull origin master
+
 docker build --tag hello-flask .
 ```
 
@@ -90,6 +97,9 @@ We will use docker official image for MySQL and run it in a container. Before we
 We are going to use volumes instead of bind mounts.
 
 ```bash
+# Pull step-2 code
+git pull origin step-2
+
 # Create docker volume
 docker volume create hello-flask-mysql
 
@@ -144,7 +154,10 @@ insert into inventory.widgets (name, description) values ('mysql','best database
 ## Step-3 Using Docker compose
 
 ```bash
-# Test default version (Python 3.8)
+# Pull step-3 code
+git pull origin step-3
+
+# Docker compose up
 docker-compose -f docker-compose.dev.yml up --build
 ```
 
@@ -152,4 +165,4 @@ docker-compose -f docker-compose.dev.yml up --build
 
 **[MIT License](LICENSE)**
 
-Copyright (c) 2021 [chandradeoarya(https://github.com/chandradeoarya)
+Copyright (c) 2021 [chandradeoarya(https://github.com/chandradeoarya)]
