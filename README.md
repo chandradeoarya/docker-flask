@@ -165,4 +165,4 @@ docker-compose -f docker-compose.dev.yml up --build
 
 **[MIT License](LICENSE)**
 
-Copyright (c) 2021 [chandradeoarya(https://github.com/chandradeoarya)
+Copyright (c) 2021 [chandradeoarya(https://github.com/chandradeoarya)]
