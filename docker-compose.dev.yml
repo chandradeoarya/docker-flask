@@ -2,23 +2,34 @@ version: "3.8"
 
 services:
   web:
+    container_name: hello_flask_dc
     build:
       context: .
     ports:
       - 5000:5000
     volumes:
       - ./:/app
+    networks:
+      - hello_flask_network_dc
 
   mysqldb:
     image: mysql
+    container_name: hello_sqldb_dc
     ports:
       - 3306:3306
     environment:
       - MYSQL_ROOT_PASSWORD=Helloflask@1
     volumes:
-      - hello-flask-mysql:/var/lib/mysql
-      - hello-flask-mysql-config:/etc/mysql
+      - hello_flask_mysql:/var/lib/mysql
+      - hello_flask_mysql_config:/etc/mysql
+    networks:
+      - hello_flask_network_dc
 
 volumes:
-  hello-flask-mysql:
-  hello-flask-mysql-config:
+  hello_flask_mysql:
+  hello_flask_mysql_config:
+
+networks:
+  hello_flask_network_dc:
+    name: hello_flask_network_dc
+    driver: bridge

@@ -11,7 +11,7 @@ def hello_world():
 @app.route('/widgets')
 def get_widgets() :
   mydb = mysql.connector.connect(
-    host="hello-flask_mysqldb_1",
+    host="hello_sqldb_dc",
     user="root",
     password="Helloflask@1",
     database="inventory"
@@ -35,7 +35,7 @@ def get_widgets() :
 @app.route('/initdb')
 def db_init():
   mydb = mysql.connector.connect(
-    host="hello-flask_mysqldb_1",
+    host="hello_sqldb_dc",
     user="root",
     password="Helloflask@1"
   )
@@ -46,7 +46,7 @@ def db_init():
   cursor.close()
 
   mydb = mysql.connector.connect(
-    host="hello-flask_mysqldb_1",
+    host="hello_sqldb_dc",
     user="root",
     password="Helloflask@1",
     database="inventory"

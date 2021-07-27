@@ -159,6 +159,9 @@ git pull origin step-3
 
 # Docker compose up
 docker-compose -f docker-compose.dev.yml up --build
+
+#checkout the mysql db with same password and insert some records
+docker exec -ti hello_sqldb_dc mysql -u root -p
 ```
 
 ## License
