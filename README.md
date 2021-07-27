@@ -151,7 +151,7 @@ insert into inventory.widgets (name, description) values ('docker','best contain
 insert into inventory.widgets (name, description) values ('mysql','best database service');
 ```
 
-## Step-3 Using Docker compose
+## Step-3a Using Docker compose
 
 ```bash
 # Pull step-3 code
@@ -164,8 +164,102 @@ docker-compose -f docker-compose.dev.yml up --build
 docker exec -ti hello_sqldb_dc mysql -u root -p
 ```
 
+## Step-3b Set up CI
+
+This step will be using the same branch. It will use docker hub as container registry and github actions for triggering CI.
+
+Create `DOCKER_HUB_USERNAME` and `DOCKER_HUB_ACCESS_TOKEN` from [Docker hub security](https://hub.docker.com/settings/security) to the github repository secrets.
+
+### Setting github actions workflow
+
+```bash
+# This is a basic workflow to help you get started with Actions
+
+name: CI for docker hello_flask_sql
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the step4 branch
+  push:
+    branches: [step3]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, flasksql!
+
+      # Building
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      # Pushing
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/docker-flasksql:latest
+
+      # Runs a set of commands using the runners shell
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
+```
+
+### Putting cache layer
+
+Setting up a cache for builder. Adding the path and keys to store this under using GitHub cache.
+
+```
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+```
+
+Refer this github cache in future builds. Only changing the build and push step.
+
+```
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags:  ${{ secrets.DOCKER_HUB_USERNAME }}/docker-flasksql:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+```
+
 ## License
 
 **[MIT License](LICENSE)**
 
-Copyright (c) 2021 [chandradeoarya(https://github.com/chandradeoarya)]
+No copyright (c) 2021 [chandradeoarya](https://github.com/chandradeoarya)
