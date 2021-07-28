@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-  return 'Hello, Docker compose using github actions CI!'
+  return 'Hello, Docker compose using github actions CI using tags!'
 
 @app.route('/widgets')
 def get_widgets() :
