@@ -280,13 +280,13 @@ Since only tagged versions are going to docker hub we can store 'latest' tags in
 
 ```
 # Just take the last docker hub workflow file and change login
-		- name: Login to Docker Hub
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GHCR_TOKEN }}
+		- name: Login to Git Hub
+      if: github.event_name != 'pull_request'
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GHCR_TOKEN }}
 ```
 
 ## License
