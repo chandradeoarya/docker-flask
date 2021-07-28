@@ -258,6 +258,37 @@ Refer this github cache in future builds. Only changing the build and push step.
           cache-to: type=local,dest=/tmp/.buildx-cache
 ```
 
+### Limiting docker hub push with tags
+
+Changing push condition from branch to tag limits docker hub push to only tagged versions.
+
+```
+on:
+  push:
+    tags:
+      - "v*.*.*"
+```
+
+Now, future only tagged commits will trigger push to docker hub.
+
+```
+git tag -a v1.0.2
+git push origin v1.0.2
+```
+
+Since only tagged versions are going to docker hub we can store 'latest' tags in github registry. Create `GHCR_TOKEN` in repository secrets from [github personal access token](https://github.com/settings/tokens).
+
+```
+# Just take the last docker hub workflow file and change login
+		- name: Login to Docker Hub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_TOKEN }}
+```
+
 ## License
 
 **[MIT License](LICENSE)**
