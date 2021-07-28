@@ -6,7 +6,8 @@ name: CI for docker hello_flask_sql
 on:
   # Triggers the workflow on push or pull request events but only for the step4 branch
   push:
-    branches: [step3]
+    tags:
+      - "v*.*.*"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
