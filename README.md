@@ -280,13 +280,26 @@ Since only tagged versions are going to docker hub we can store 'latest' tags in
 
 ```
 # Just take the last docker hub workflow file and change login
-		- name: Login to Git Hub
-      if: github.event_name != 'pull_request'
-      uses: docker/login-action@v1
-      with:
-        registry: ghcr.io
-        username: ${{ github.repository_owner }}
-        password: ${{ secrets.GHCR_TOKEN }}
+- name: Login to Git Hub
+  if: github.event_name != 'pull_request'
+  uses: docker/login-action@v1
+  with:
+    registry: ghcr.io
+    username: ${{ github.repository_owner }}
+    password: ${{ secrets.GHCR_TOKEN }}
+
+# Also update the image tag with github registry
+- name: Build and push
+  id: docker_build
+  uses: docker/build-push-action@v2
+  with:
+    context: ./
+    file: ./Dockerfile
+    builder: ${{ steps.buildx.outputs.name }}
+    push: true
+    tags: ghcr.io/${{ secrets.DOCKER_HUB_USERNAME }}/docker-flasksql:latest
+    cache-from: type=local,src=/tmp/.buildx-cache
+    cache-to: type=local,dest=/tmp/.buildx-cache
 ```
 
 ## License
