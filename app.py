@@ -13,7 +13,7 @@ def get_widgets() :
   mydb = mysql.connector.connect(
     host="helloflasksqldb",
     user="root",
-    password="Helloflask@1",
+    password=pswd,
     database="inventory"
   )
   cursor = mydb.cursor()
@@ -34,10 +34,11 @@ def get_widgets() :
 
 @app.route('/initdb')
 def db_init():
+  pswd="Helloflask@1"
   mydb = mysql.connector.connect(
     host="helloflasksqldb",
     user="root",
-    password="Helloflask@1"
+    password=pswd
   )
   cursor = mydb.cursor()
 
@@ -48,7 +49,7 @@ def db_init():
   mydb = mysql.connector.connect(
     host="helloflasksqldb",
     user="root",
-    password="Helloflask@1",
+    password=pswd,
     database="inventory"
   )
   cursor = mydb.cursor()
