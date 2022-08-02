@@ -98,7 +98,7 @@ We are going to use volumes instead of bind mounts.
 
 ```bash
 # Pull step-2 code
-git pull origin step-2
+git pull origin step2
 
 # Create docker volume
 docker volume create hello-flask-mysql
