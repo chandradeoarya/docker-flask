@@ -155,7 +155,7 @@ insert into inventory.widgets (name, description) values ('mysql','best database
 
 ```bash
 # Pull step-3 code
-git pull origin step-3
+git pull origin step3
 
 # Docker compose up
 docker-compose -f docker-compose.dev.yml up --build
